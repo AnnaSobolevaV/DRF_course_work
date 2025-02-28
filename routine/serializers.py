@@ -5,10 +5,12 @@ from routine.validators import routine_period_validator, routine_time_to_complet
 
 
 class RoutineSerializer(ModelSerializer):
+    """Класс, описывающий сериализатор для модели Привычка"""
     period = serializers.IntegerField(validators=[routine_period_validator], required=False)
     time_to_complete = serializers.IntegerField(validators=[routine_time_to_complete_validator], required=False)
 
     def validate(self, attrs):
+        """Метод валидации вводимых или редактируемых полей модели Привычка: reward, reward_routine, enjoyable """
         errors = []
         obj = self.instance
         if obj:

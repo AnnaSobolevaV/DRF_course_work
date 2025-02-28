@@ -7,14 +7,17 @@ from users.models import User
 
 
 class RoutineTestCase(APITestCase):
+    "Нобор тестов для модели Привычка"
 
     def setUp(self):
+        """Предустановки для тестов"""
         self.user = User.objects.create(email="autotest@mail.ru")
         self.routine = Routine.objects.create(what="autoTestRoutine", owner=self.user)
         self.reward_routine = Routine.objects.create(what="autoTestRewardRoutine", enjoyable=True, owner=self.user)
         self.client.force_authenticate(user=self.user)
 
     def test_routine_list(self):
+        """Проверка корректности вывода списка Привычек"""
         url = reverse("routine:routine-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -33,6 +36,7 @@ class RoutineTestCase(APITestCase):
         self.assertEqual(Routine.objects.count(), 2)
 
     def test_routine_retrieve(self):
+        """Проверка корректности вывода одной Привычки"""
         url = reverse("routine:routine-detail", args=(self.routine.pk,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -43,6 +47,7 @@ class RoutineTestCase(APITestCase):
                                            'reward_routine': None, 'owner': self.user.pk})
 
     def test_routine_create(self):
+        """Проверка корректного создания Привычки"""
         url = reverse("routine:routine-create")
         data = {"what": "autoTestNew", "owner": self.user.pk}
         response = self.client.post(url, data)
@@ -52,6 +57,7 @@ class RoutineTestCase(APITestCase):
         self.assertEqual(Routine.objects.count(), 3)
 
     def test_routine_update(self):
+        """Проверка корректного изменения Привычки"""
         url = reverse("routine:routine-detail", args=(self.routine.pk,))
         data = {"what": "autoTestUpdate"}
         response = self.client.patch(url, data)
@@ -63,6 +69,7 @@ class RoutineTestCase(APITestCase):
                                            'reward_routine': None, 'owner': self.user.pk})
 
     def test_routine_delete(self):
+        """Проверка корректного удаления Привычки"""
         url = reverse("routine:routine-detail", args=(self.routine.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

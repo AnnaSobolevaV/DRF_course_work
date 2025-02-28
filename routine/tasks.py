@@ -8,6 +8,7 @@ from routine.services import send_telegram_message
 
 @shared_task
 def routine_reminder_send_to_tg():
+    """Метод, описывающий периодическую задачу для отправки напоминаний о необходимости выполнить Привычки"""
     today = timezone.now().today().date()
     routines = Routine.objects.filter(enjoyable=False)
     for routine in routines:

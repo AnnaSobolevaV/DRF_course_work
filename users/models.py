@@ -3,6 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
+    """Класс, описывающий модель Пользователь"""
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
     phone = models.CharField(
@@ -30,4 +31,5 @@ class User(AbstractUser):
         verbose_name_plural = "Пользователи"
 
     def __str__(self):
+        """Строковое представление экземпляра модели Пользователь"""
         return self.email

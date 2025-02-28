@@ -4,8 +4,10 @@ from users.models import User
 
 
 class Command(BaseCommand):
+    """Класс для описания команды csu. Создание пользователя - superuser"""
 
     def handle(self, *args, **options):
+        """"""
         user = User.objects.create(
             email='admin_DRF@sky.pro',
             first_name='Admin',

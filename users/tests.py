@@ -7,12 +7,14 @@ from users.models import User
 
 
 class UserTestCase(APITestCase):
-
+    """Набор тестов для модели Пользователь"""
     def setUp(self):
+        """Предустановки для тестов"""
         self.user = User.objects.create(email="autotest@mail.ru", is_active=True)
         self.client.force_authenticate(user=self.user)
 
     def test_user_list(self):
+        """Проверка корректности вывода списка Пользователей"""
         url = reverse("users:user-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -26,6 +28,7 @@ class UserTestCase(APITestCase):
         self.assertEqual(User.objects.count(), 1)
 
     def test_user_retrieve(self):
+        """Проверка корректности вывода одного Пользователя"""
         url = reverse("users:user-detail", args=(self.user.pk,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -38,6 +41,7 @@ class UserTestCase(APITestCase):
                                            'groups': [], 'user_permissions': []})
 
     def test_user_create(self):
+        """Проверка корректного создания Пользователя"""
         url = reverse("users:register")
         data = {"email": "autotestNew@mail.ru", "password": "password", "is_active": "True"}
         response = self.client.post(url, data)
@@ -46,6 +50,7 @@ class UserTestCase(APITestCase):
         self.assertEqual(User.objects.count(), 2)
 
     def test_user_update(self):
+        """Проверка корректного изменения Пользователя"""
         url = reverse("users:user-detail", args=(self.user.pk,))
         data = {"email": "autotestUpdate@mail.ru"}
         response = self.client.patch(url, data)
@@ -53,6 +58,7 @@ class UserTestCase(APITestCase):
         self.assertEqual(response.json()['email'], 'autotestUpdate@mail.ru')
 
     def test_user_delete(self):
+        """Проверка корректного удаления Пользователя"""
         url = reverse("users:user-detail", args=(self.user.pk,))
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

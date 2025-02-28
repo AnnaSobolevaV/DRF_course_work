@@ -4,6 +4,7 @@ from config import settings
 
 
 class Routine(models.Model):
+    """Класс, описывающий модель Привычка"""
     what = models.CharField(
         max_length=150,
         verbose_name="Что именно необходимо выполнить",
@@ -89,4 +90,5 @@ class Routine(models.Model):
         verbose_name_plural = "Привычки"
 
     def __str__(self):
+        """строковое представление Привычки"""
         return f'{self.what} {self.when} {self.where}'
