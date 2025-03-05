@@ -28,3 +28,9 @@ def routine_reminder_send_to_tg():
                         send_telegram_message(routine_owner.tg_id, message)
                         routine.last_reminder = today
                         routine.save()
+
+
+@shared_task
+def test():
+    """Тестовая задача для celery"""
+    print("Test is completed")
